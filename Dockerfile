@@ -28,8 +28,6 @@ RUN wget --output-document=gradle-${GRADLE_VERSION}-all.zip https://downloads.gr
 	&& mkdir -p ~/.android \
 	&& touch ~/.android/repositories.cfg
 
-RUN flutter doctor
-
 RUN yes | ${ANDROID_HOME}/tools/bin/sdkmanager --licenses \
 	&& ${ANDROID_HOME}/tools/bin/sdkmanager --update
 
@@ -42,6 +40,6 @@ RUN npm install -g npm \
         && npm install -g react-native-cli \
         && npm install --save-dev ci-publish
 
-# RUN apt-get remove -y wget unzip curl zip \
-# 	&& apt-get autoremove -y \
-# 	&& apt-get clean
+RUN apt-get remove -y wget unzip curl zip \
+		&& apt-get autoremove -y \
+		&& apt-get clean
