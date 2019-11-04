@@ -12,7 +12,8 @@ ENV PATH "$PATH:${ANDROID_HOME}/tools:/opt/gradle/gradle-${GRADLE_VERSION}/bin:/
 RUN apt-get update \
 	&& apt-get upgrade -y \
 	&& apt-get install -y openjdk-8-jdk \
-	&& apt-get install -y git wget unzip curl jq npm zip
+	&& apt-get install -y git wget unzip curl jq npm zip \
+	&& apt-get clean
 
 RUN wget --output-document=gradle-${GRADLE_VERSION}-all.zip https://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip \
 	&& mkdir -p /opt/gradle \
@@ -39,7 +40,3 @@ RUN npm install -g npm \
         && npm install -g cordova \
         && npm install -g react-native-cli \
         && npm install --save-dev ci-publish
-
-RUN apt-get remove -y wget unzip curl zip \
-		&& apt-get autoremove -y \
-		&& apt-get clean
