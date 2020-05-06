@@ -7,7 +7,6 @@ ARG GRADLE_VERSION=5.4.1
 ARG FLUTTER_VERSION=v1.12.13+hotfix.7-stable
 
 ENV ANDROID_HOME "/android-sdk-linux"
-ENV PATH "$PATH:${ANDROID_HOME}/tools:/opt/gradle/gradle-${GRADLE_VERSION}/bin:/opt/flutter/bin"
 
 RUN apt-get update \
 	&& apt-get upgrade -y \
@@ -40,3 +39,13 @@ RUN npm install -g npm \
 	&& npm install --save-dev ci-publish
 
 RUN npm install -g react-native-cli
+
+# install .net Core SDK
+RUN wget https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
+	&& dpkg -i packages-microsoft-prod.deb \
+	&& apt update \
+	&& apt install dotnet-sdk-3.1 -y \
+	&& rm packages-microsoft-prod.deb
+
+ENV PATH "$PATH:${ANDROID_HOME}/tools:/opt/gradle/gradle-${GRADLE_VERSION}/bin:/opt/flutter/bin:/opt/flutter/bin/cache/dart-sdk/bin"
+
