@@ -10,8 +10,13 @@ ENV ANDROID_HOME "/android-sdk-linux"
 
 RUN apt-get update \
 	&& apt-get upgrade -y \
-	&& apt-get install -y git wget unzip curl jq npm zip openjdk-8-jdk \
-	&& apt-get clean
+	&& apt-get install -y git wget unzip curl jq npm zip openjdk-8-jdk locales \
+	&& apt-get clean \
+	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+ENV LANG=en_US.UTF-8 \
+    LANGUAGE=en_US:en \
+    LC_ALL=en_US.UTF-8
 
 RUN wget --output-document=gradle-${GRADLE_VERSION}-all.zip https://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip \
 	&& mkdir -p /opt/gradle \
