@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 MAINTAINER tapsellprg <technical.tapsell@gmail.com>
 
 ARG SDK_TOOLS_VERSION=4333796
-ARG GRADLE_VERSION=6.1.1
+ARG GRADLE_VERSION=6.5
 ARG FLUTTER_VERSION=v1.12.13+hotfix.7-stable
 
 ENV ANDROID_HOME "/android-sdk-linux"
