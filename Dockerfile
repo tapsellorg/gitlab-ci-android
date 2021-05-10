@@ -10,7 +10,9 @@ ENV ANDROID_HOME "/android-sdk-linux"
 
 RUN apt-get update \
 	&& apt-get upgrade -y \
-	&& apt-get install -y git wget unzip curl jq npm zip openjdk-8-jdk locales \
+	&& apt-get install -y curl \
+	&& curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
+	&& apt-get install -y git wget unzip jq zip openjdk-8-jdk locales nodejs \
 	&& apt-get clean \
 	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
@@ -39,8 +41,7 @@ ADD packages.txt .
 RUN while read -r package; do PACKAGES="${PACKAGES}${package} "; done < ./packages.txt && \
     ${ANDROID_HOME}/tools/bin/sdkmanager ${PACKAGES}
 
-RUN npm install -g npm \
-	&& npm install -g cordova \
+RUN npm install -g cordova \
 	&& npm install --save-dev ci-publish
 
 RUN npm install -g react-native-cli
