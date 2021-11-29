@@ -1,6 +1,8 @@
 build-tools;26.0.1
 build-tools;26.0.3
 build-tools;29.0.3
+build-tools;31.0.0
 platforms;android-26
 platforms;android-29
+platforms;android-31
 platform-tools

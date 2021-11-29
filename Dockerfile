@@ -12,7 +12,7 @@ RUN apt-get update \
 	&& apt-get upgrade -y \
 	&& apt-get install -y curl \
 	&& curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
-	&& apt-get install -y git wget unzip jq zip openjdk-8-jdk locales nodejs \
+	&& apt-get install -y git wget unzip jq zip openjdk-11-jdk locales nodejs \
 	&& apt-get clean \
 	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
