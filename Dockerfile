@@ -12,7 +12,7 @@ RUN apt-get update \
 	&& apt-get upgrade -y \
 	&& apt-get install -y curl \
 	&& curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
-	&& apt-get install -y git wget unzip jq zip openjdk-8-jdk locales nodejs \
+	&& apt-get install -y git wget unzip jq zip openjdk-11-jdk locales nodejs \
 	&& apt-get clean \
 	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
@@ -33,6 +33,18 @@ RUN wget --output-document=gradle-${GRADLE_VERSION}-all.zip https://downloads.gr
 	&& rm ./flutter.tar.xz \
 	&& mkdir -p ~/.android \
 	&& touch ~/.android/repositories.cfg
+
+RUN cd ${ANDROID_HOME}/tools \
+  && mkdir jaxb_lib \
+  && wget https://repo1.maven.org/maven2/javax/activation/activation/1.1.1/activation-1.1.1.jar -O jaxb_lib/activation.jar \
+  && wget https://repo1.maven.org/maven2/com/sun/xml/bind/jaxb-impl/2.3.3/jaxb-impl-2.3.3.jar -O jaxb_lib/jaxb-impl.jar \
+  && wget https://repo1.maven.org/maven2/com/sun/istack/istack-commons-runtime/3.0.11/istack-commons-runtime-3.0.11.jar -O jaxb_lib/istack-commons-runtime.jar \
+  && wget https://repo1.maven.org/maven2/org/glassfish/jaxb/jaxb-xjc/2.3.3/jaxb-xjc-2.3.3.jar -O jaxb_lib/jaxb-xjc.jar \
+  && wget https://repo1.maven.org/maven2/org/glassfish/jaxb/jaxb-core/2.3.0.1/jaxb-core-2.3.0.1.jar -O jaxb_lib/jaxb-core.jar \
+  && wget https://repo1.maven.org/maven2/org/glassfish/jaxb/jaxb-jxc/2.3.3/jaxb-jxc-2.3.3.jar -O jaxb_lib/jaxb-jxc.jar \
+  && wget https://repo1.maven.org/maven2/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar -O jaxb_lib/jaxb-api.jar \
+  && sed -ie 's%^CLASSPATH=.*%\0:$APP_HOME/jaxb_lib/*%' bin/sdkmanager bin/avdmanager
+
 
 RUN yes | ${ANDROID_HOME}/tools/bin/sdkmanager --licenses \
 	&& ${ANDROID_HOME}/tools/bin/sdkmanager --update
